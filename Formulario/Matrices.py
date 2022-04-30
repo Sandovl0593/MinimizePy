@@ -97,34 +97,34 @@ def condicionmaineto():
     Point_inv = sum([xt*yt for xt, yt in zip(invertMatriz_re(matriz), invertMatriz_re(matriz))])
 
 
-# FACTORIXACION DE MATRICES
+# FACTORIZACION DE MATRICES
 # -----------------------------
-def met_Gram_Schmidt():
+def met_Gram_Schmidt_QR():
     # Solo con matrices m x 2
     n = int(input("Rango: "))
     print("Imprime la matriz")
     matriz = []
     for _ in range(n):
         matriz.append(list(map(float, input().split())))
-    # norma de la fila 1
-    v1 = fila1 = [x[0] for x in matriz]   # v1 = a1 : [2 0 0]
-    r11 = math.sqrt(sum([xt**2 for xt in fila1])) # r11 : 2
-    q1 = [fil/r11 for fil in v1]  # columna  q1 : [1 0 0]
+    # # norma de la fila 1
+    # v1 = fila1 = [x[0] for x in matriz]   # v1 = a1 : [2 0 0]
+    # r11 = math.sqrt(sum([xt**2 for xt in fila1])) # r11 : 2
+    # q1 = [fil/r11 for fil in v1]  # columna  q1 : [1 0 0]
 
-    fila2 = [x[1] for x in matriz] # a2 : [0 0 -1]
-    r12 = sum([xt*yt for xt, yt in zip(q1, fila2)]) # r12 : 0
+    # fila2 = [x[1] for x in matriz] # a2 : [0 0 -1]
+    # r12 = sum([xt*yt for xt, yt in zip(q1, fila2)]) # r12 : 0
 
-    v2 = [der-pr for der, pr in zip(fila2, [r12*fr for fr in q1])]  # columna
-    r22 = math.sqrt(sum([xt**2 for xt in v2]))
-    q2 = [ref/r22 for ref in v2]  # columna
-    Qvalue = Transposicion([q1, q2])
-    Rvalue = [[r11, r12], [0, r22]]
+    # v2 = [der-pr for der, pr in zip(fila2, [r12*fr for fr in q1])]  # columna
+    # r22 = math.sqrt(sum([xt**2 for xt in v2]))
+    # q2 = [ref/r22 for ref in v2]  # columna
+    # Qvalue = Transposicion([q1, q2])
+    # Rvalue = [[r11, r12], [0, r22]]
     print("Factores matrices:")
     print("Q--\n", numpy.array(Qvalue))
     print("R--\n", numpy.array(Rvalue))
 
 
-def met_Doolittle():
+def met_Doolittle_LU():
     # La matriz tiene que ser de orden paralela
     n = int(input("Rango: "))
     print("Imprime la matriz")
@@ -133,23 +133,46 @@ def met_Doolittle():
         matriz.append(list(map(float, input().split())))
     triang, multiplos = EliminGaussiPiv(matriz)  # matriz U
 
-    ident = identidad(n)    # matriz L
+    ident = identidad(n)
     for val, mult in zip(ident, multiplos):
         for num, mt in zip(val, mult):
             if num == 0:
-                val[val.index(num)] = mt
+                val[val.index(num)] = mt  # matriz L
     print("Mtarices factores:")
     print("L--", numpy.array(Transposicion(ident)))
     print("U--", numpy.array(triang))
 
-def met_Crout():
+
+def met_Crout_LU():
+    # La matriz tiene que ser de orden paralela
+    n = int(input("Rango: "))
+    print("Imprime la matriz")
+    matriz = []
     pass
 
 
+def Resolucion_Sistema():
+    n = int(input("Rango: "))
+    print("Imprime la matriz incognita:")
+    matriz = []
+    for _ in range(n):
+        matriz.append(list(map(float, input().split())))
+    columna = list(map(float, input("Vector columna: ").split()))
+
+    for lis, col in zip(matriz, columna):
+        lis.append(col)
+        
+    print("Metodo de resolucion:\n--Con factorizacion\n--Sin factorizacion")
+    op = input("-- ")
+    if op == '1':
+        print("Metodo de factorizacion\n1---- D\n2---- Sin pivoteo\n")
+        opc = input("---- ")
+        resultado = ResolSistem_conFact(matriz, opc)
+    elif op == '2':
+        resultado = ResolSistem_sinFact(matriz)
 
 # productoPunto()
 # productoMatriz()
 # determinantes()
 # Multipl_VColumn_VFile()
 # invertirMatriz()
-met_Gram_Schmidt()

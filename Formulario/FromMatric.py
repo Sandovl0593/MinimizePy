@@ -98,16 +98,16 @@ def EliminGaussiPiv(matriz:list[list]):
         multip.append(listmult)
     return matriz, multip
 
-def ResolSistem(matriz:list[list]):
+def ResolSistem_sinFact(matriz:list[list]):  # esta matriz debe estar concatenada con la columna b
     "Resolucion de sistema de ecuaciones con matrices"
-    print("1-- Con pivoteo--\n2-- Sin pivoteo\n")
-    ded = input("-- ")
+    print("1---- Con pivoteo\n2---- Sin pivoteo\n")
+    ded = input("---- ")
     if ded == '1':
         result, multp = EliminGaussiPiv(matriz)
     elif ded == '2':
         result = EliminGaussiNoPiv(matriz)
 
-    print("Hecho..\nDevolver vector columna? 1 o 0")
+    print("Hecho..\n--Devolver vector columna? 1 o 0")
     des = input("-- ")
     if des == '1':
         Number = [lis[-1] for lis in result]  # vector columna
@@ -117,14 +117,15 @@ def ResolSistem(matriz:list[list]):
     elif des == '0':
         return result
 
-def sustitucRg(matEsc, colum):
-    "Solucion del sistema escalonado"
-    n = len(matEsc[0])
+def sustitucRg(matEscU, colum):
+    "Sustitucion regresiva o hacia atras del sistema escalonado"
+    "Aplica con sistema triangular superior" ## primero--
+    n = len(matEscU[0])
     x = [0 for _ in range(n)]  # vector columna
     for k in range(n-1, 0, -1):
-        UU = matEsc[k][k+1:n]
+        UU = matEscU[k][k+1:n]
         xU = x[k+1:n]
-        fred = (colum[k]- sum([x*y for x,y in zip(UU, xU)]))/matEsc[k][k]
+        fred = (colum[k]- sum([x*y for x,y in zip(UU, xU)]))/matEscU[k][k]
         print(fred)
 
 def identidad(long):
@@ -133,3 +134,16 @@ def identidad(long):
         submat = [1 if i == j else 0 for j in range(long)]
         matriz.append(submat)
     return matriz
+
+def sustitucDir(matEscL, colum):
+    "Sustituacion directa o hacia adelante del sistema escalonado"
+    "Aplica con sistema triangular inferior"  ## segundo--
+    n = len(matEscL[0])
+    x = [0 for _ in range(n)]  # vector columna
+    for k in range(n):
+        rang = sum([Lk*xk for Lk, xk in zip(matEscL[k][:k-1], x[:k-1])])
+
+def ResolSistem_conFact(matriz:list[list], opcion):  # esta matriz debe estar concatenada con la columna b
+    if opcion == '1':
+        
+    pass
