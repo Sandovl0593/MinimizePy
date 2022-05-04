@@ -146,4 +146,4 @@ def sustitucDir(matEscL, colum):
 def ResolSistem_conFact(matriz:list[list], opcion):  # esta matriz debe estar concatenada con la columna b
     if opcion == '1':
         
-    pass
+        pass
