@@ -38,7 +38,6 @@ def intCircle():
     pendown()
 
     x = 0; y = 0
-    interse = list()
     while x != posX or y != posY:
         circle(rad_wh, -angle)
         circle(rad_wh, angle/2)
@@ -47,38 +46,27 @@ def intCircle():
         penup()
         left(30)
         pendown()
-        interse.append((x, y))
 
-    color("yellow")
-    for rad in interse:
-        lefff = 0
-        for i in range(6):
-            if i == 1:
-                circle(rad_wh+20, -angle)
+    color("orange")
+    n = 0;  m = 0
+    for _ in range(2):
+        for xmin, ymin, meter in [(20, 15, 65), (25, 20, 70), (30, 25, 75), (35, 30, 80)]:
+            newposX = posX - round((rad_wh/(xmin+n)))
+            newposY = posY - round((rad_wh/(ymin+n)))
+            Rad = rad_wh - int(rad_wh/(meter+m))
             penup()
-            goto(rad)
-            left(lefff-15)
+            goto(newposX, newposY)
             pendown()
-        left(30)
-
-    for xmin, ymin, meter in [(15, 10, 10), (35, 16, 20), (68, 30, 50), (74, 40, 60)]:
-        newposX = posX - round((rad_wh/xmin))
-        newposY = posY - round((rad_wh/ymin))
-        color("orange")
-        rad_wh += int(rad_wh/meter)
-        penup()
-        goto(newposX, newposY)
-        pendown()
-        x = 0; y = 0
-        while x != newposX or y != newposY:
-            circle(rad_wh, -angle)
-            circle(rad_wh, angle/2)
-            x = round(xcor())
-            y = round(ycor())
-            penup()
-            left(30)
-            pendown()
-
+            x = 0; y = 0
+            while x != newposX or y != newposY:
+                circle(Rad, -angle)
+                circle(Rad, angle/2)
+                x = round(xcor())
+                y = round(ycor())
+                penup()
+                left(30)
+                pendown()
+        n += 72;  m += 30
     root.mainloop()
 
 intCircle()
