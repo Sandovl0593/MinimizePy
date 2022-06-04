@@ -1,6 +1,5 @@
 import math
 from FromVect import *
-
 # RESOLUCION DE VECTORES
 # ---------------------
 def productoCruz():
